@@ -1,0 +1,4 @@
+node_modules/
+_check*.mjs
+scratch_*.png
+*.log

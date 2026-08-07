@@ -1,0 +1,250 @@
+/* ==========================================================
+   Design tokens: fonte unica de verdade para cores, tipografia,
+   espacamento, raios, movimento e z-index.
+   Importar ANTES de qualquer outro CSS.
+
+   Duas camadas:
+     Camada 1  escala fixa e imutavel (nenhum @media a redefine)
+     Camada 2  semanticos de aplicacao (os @media so trocam o degrau)
+
+   Contrato partilhado: o modulo de 64px (--modulo). A grelha de fundo,
+   o espacamento e as coordenadas dos projetos derivam dele.
+   ========================================================== */
+
+/* Glory auto hospedada (variavel, eixo wght 400 a 800).
+   Um so ficheiro cobre todos os pesos: sem carregamento fragil de CDN. */
+@font-face {
+   font-family: 'Glory';
+   font-style: normal;
+   font-weight: 400 800;
+   font-display: swap;
+   src: url('../fonts/glory-latin.woff2') format('woff2');
+   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+   font-family: 'Glory';
+   font-style: normal;
+   font-weight: 400 800;
+   font-display: swap;
+   src: url('../fonts/glory-latin-ext.woff2') format('woff2');
+   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+   /* =======================================================
+      CAMADA 1  Paleta bruta (nenhum seletor usa direto)
+      Cores extraidas do import do design (fonte de verdade visual).
+      ======================================================= */
+   --preto: #000000;
+   --branco: #FFFFFF;
+
+   --tinta-900: #1A1822;   /* fundo externo do design */
+   --tinta-850: #1E1C28;   /* pilula de chat flutuante */
+   --tinta-800: #22202B;   /* fundo da aplicacao (grelha) */
+   --tinta-780: #1C1A26;   /* concha do mockup */
+   --tinta-760: #181620;   /* barra de chat fixa no mobile */
+   --tinta-700: #302D3E;   /* superficie de vidro */
+
+   --rosa-500: #B65EDB;    /* accent principal (marca) */
+   --rosa-400: #C97FE6;    /* segundo traco da marca */
+   --rosa-300: #D8AEF0;    /* texto sobre accent suave */
+
+   --neutro-100: #EDECF2;  /* titulo / texto forte */
+   --neutro-300: #BFBACB;  /* corpo de chat */
+   --neutro-400: #A7A2B5;  /* texto secundario */
+   --neutro-500: #7E7990;  /* eyebrow / meta */
+   --neutro-600: #6E6980;  /* placeholder */
+   --neutro-700: #615C72;  /* separadores de texto */
+
+   /* Alfas reutilizaveis */
+   --branco-a14: rgba(255, 255, 255, .14);
+   --branco-a12: rgba(255, 255, 255, .12);
+   --branco-a10: rgba(255, 255, 255, .10);
+   --branco-a09: rgba(255, 255, 255, .09);
+   --branco-a07: rgba(255, 255, 255, .07);
+   --branco-a06: rgba(255, 255, 255, .06);
+   --branco-a032: rgba(255, 255, 255, .032);
+   --branco-a03: rgba(255, 255, 255, .03);
+   --preto-a55: rgba(0, 0, 0, .55);
+
+   --rosa-a45: rgba(182, 94, 219, .45);
+   --rosa-a40: rgba(182, 94, 219, .40);
+   --rosa-a35: rgba(182, 94, 219, .35);
+   --rosa-a22: rgba(182, 94, 219, .22);
+   --rosa-a20: rgba(182, 94, 219, .20);
+   --rosa-a16: rgba(182, 94, 219, .16);
+   --rosa-a14: rgba(182, 94, 219, .14);
+   --rosa-a12: rgba(182, 94, 219, .12);
+   --rosa-a10: rgba(182, 94, 219, .10);
+   --tinta-glass: rgba(48, 45, 62, .55);
+   --tinta-glass-forte: rgba(48, 45, 62, .70);
+   --tinta-mockup: rgba(28, 26, 38, .70);
+   --tinta-barra: rgba(24, 22, 32, .85);
+   --sem-cor: transparent;
+
+   /* =======================================================
+      CAMADA 1  Semanticos de cor (apontam para a paleta)
+      ======================================================= */
+   --cor-fundo: var(--tinta-800);
+   --cor-fundo-externo: var(--tinta-900);
+   --cor-texto: var(--neutro-100);
+   --cor-texto-corpo: var(--neutro-300);
+   --cor-texto-suave: var(--neutro-400);
+   --cor-texto-dim: var(--neutro-500);
+   --cor-texto-placeholder: var(--neutro-600);
+   --cor-separador-texto: var(--neutro-700);
+   --cor-destaque: var(--rosa-500);
+   --cor-destaque-2: var(--rosa-400);
+   --cor-destaque-suave: var(--rosa-300);
+
+   --cor-vidro: var(--tinta-glass);
+   --cor-vidro-forte: var(--tinta-glass-forte);
+   --cor-mockup: var(--tinta-mockup);
+   --cor-barra: var(--tinta-barra);
+   --cor-borda: var(--branco-a09);
+   --cor-borda-suave: var(--branco-a06);
+   --cor-borda-forte: var(--branco-a14);
+   --cor-borda-accent: var(--rosa-a45);
+   --cor-borda-accent-suave: var(--rosa-a22);
+   --cor-linha-grade: var(--branco-a032);
+   --cor-linha-grade-mobile: var(--branco-a03);
+   --cor-linha-grade-accent: var(--rosa-a10);
+   --cor-sombra: var(--preto-a55);
+   --cor-transparente: var(--sem-cor);
+   --cor-erro: #FF6B8A;
+
+   /* Brilho superior roxo (radial) reaproveitado nas telas */
+   --brilho-topo: radial-gradient(120% 60% at 50% -10%, var(--rosa-a14), transparent 60%);
+
+   /* =======================================================
+      CAMADA 1  Tipografia (Glory, fonte unica)
+      ======================================================= */
+   --fonte-principal: 'Glory', system-ui, sans-serif;
+   --fonte-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+
+   --peso-regular: 400;
+   --peso-medio: 500;
+   --peso-semi: 600;
+   --peso-forte: 700;
+   --peso-black: 800;
+
+   --texto-xs: 12px;
+   --texto-sm: 14px;
+   --texto-base: 16px;
+   --texto-md: 18px;
+   --texto-lg: 22px;
+   --texto-xl: 28px;
+   --texto-hero: clamp(34px, 5.2vw, 66px);
+   --texto-hero-mobile: clamp(28px, 8vw, 34px);
+   --letra-eyebrow: .22em;
+   --letra-meta: .16em;
+
+   /* =======================================================
+      CAMADA 1  Modulo e escala de espacamento (FIXA)
+      O modulo de 64px e o contrato partilhado com a grelha.
+      Escala: 8, 16, 24, 32, 48, 64.
+      ======================================================= */
+   --modulo: 64px;
+   --esp-8: 8px;
+   --esp-16: 16px;
+   --esp-24: 24px;
+   --esp-32: 32px;
+   --esp-48: 48px;
+   --esp-64: 64px;
+
+   /* =======================================================
+      CAMADA 1  Raios, alturas de componente, movimento, z
+      ======================================================= */
+   --raio-sm: 10px;
+   --raio-md: 14px;
+   --raio-lg: 18px;
+   --raio-xl: 20px;
+   --raio-pill: 999px;
+   --raio-circulo: 50%;
+
+   --alt-header: 72px;
+   --alt-botao-menu: 42px;
+   --alt-enviar: 52px;
+   --alt-enviar-sm: 42px;
+
+   --duracao-xs: 200ms;
+   --duracao-sm: 250ms;
+   --duracao-md: 400ms;
+   --duracao-lg: 600ms;
+   --ease-padrao: cubic-bezier(.4, 0, .2, 1);
+   --ease-entrada: cubic-bezier(.2, .7, .2, 1);
+   --ease-saida: cubic-bezier(.4, 0, 1, 1);
+   --ease-bounce: cubic-bezier(.34, 1.56, .64, 1);
+
+   --blur-vidro: 20px;
+   --blur-vidro-forte: 24px;
+   --sombra-mockup: 0 40px 90px -30px var(--rosa-a45);
+   --sombra-card: 0 24px 60px -30px var(--preto-a55);
+   --sombra-cta: 0 8px 24px -6px var(--rosa-a40);
+   --sombra-chat: 0 12px 40px -12px var(--rosa-a40);
+
+   --z-fundo: 0;
+   --z-base: 1;
+   --z-elevado: 2;
+   --z-indicador: 60;
+   --z-chat: 80;
+   --z-header: 100;
+   --z-drawer: 200;
+}
+
+/* ==========================================================
+   CAMADA 2  Aplicacao (semanticos por uso).
+   Os cinco breakpoints estao presentes (base, 480, 768, 1024,
+   1440), mesmo quando vazios, para o encaixe das fases seguintes.
+   Os @media so trocam o degrau, nunca inventam px fora da escala.
+   ========================================================== */
+
+/* ---------- BASE: mobile (ate 479px) ---------- */
+:root {
+   --padding-pagina: var(--esp-24);       /* respiro lateral do quadro */
+   --padding-topo: var(--esp-24);          /* topo (header) */
+   --gap-seccao: var(--esp-32);            /* entre blocos verticais da tela */
+   --gap-hero: var(--esp-16);
+   --gap-chat: var(--esp-16);
+   --margem-indicador: var(--esp-24);      /* afastamento do indicador de posicao */
+   --largura-conteudo: 100%;               /* largura util das telas internas */
+   --largura-chat: 100%;
+   --largura-gaveta: min(300px, 84vw);
+}
+
+/* ---------- 480px+ ---------- */
+@media (min-width: 480px) {
+   :root {
+      --padding-pagina: var(--esp-32);
+   }
+}
+
+/* ---------- 768px+ ---------- */
+@media (min-width: 768px) {
+   :root {
+      --padding-pagina: var(--esp-48);
+      --padding-topo: var(--esp-48);
+      --gap-seccao: var(--esp-48);
+      --margem-indicador: var(--esp-48);
+      --largura-conteudo: 960px;
+   }
+}
+
+/* ---------- 1024px+ (visual desktop do design) ---------- */
+@media (min-width: 1024px) {
+   :root {
+      --padding-pagina: var(--esp-64);
+      --padding-topo: var(--esp-48);
+      --gap-seccao: var(--esp-64);
+      --margem-indicador: var(--esp-64);
+      --largura-conteudo: 1200px;
+      --largura-chat: 640px;
+   }
+}
+
+/* ---------- 1440px+ ---------- */
+@media (min-width: 1440px) {
+   :root {
+      --largura-conteudo: 1408px;
+   }
+}

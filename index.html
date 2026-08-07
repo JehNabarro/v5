@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>Jéssica Nabarro, UX/UI &amp; Product Designer</title>
+   <meta name="description"
+      content="Portfólio de Jéssica Nabarro, UX/UI e Product Designer. Projetos de produto e web: Motorline, Coinple, Momentos e Diagnóstico de Liderança." />
+   <script>
+      // Marca "com JS": os estados escondidos so valem com JS ativo.
+      document.documentElement.classList.add('js');
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+   </script>
+   <!-- tokens.css ANTES de qualquer outro CSS -->
+   <link rel="stylesheet" href="css/tokens.css" />
+   <link rel="stylesheet" href="css/style.css" />
+   <!-- GSAP (CDN): usado pelo chat para o gsap.to entre posicoes -->
+   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+   <script type="module" src="js/main.js"></script>
+</head>
+
+<body>
+   <!-- Fundo: grelha estatica de 64px + brilho superior (CSS puro) -->
+   <div class="fundo-grelha" aria-hidden="true"></div>
+
+   <!-- HEADER: marca + pilula de navegacao + idioma + hamburguer -->
+   <header class="topo">
+      <a class="marca" href="#home" data-destino="home">
+         <svg class="marca-simbolo" width="66" height="66" viewBox="0 0 72 72" fill="none" aria-hidden="true">
+            <path d="M15 54 L31 15 L35 41 L52 17" stroke="var(--cor-destaque)" stroke-width="4.5"
+               stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M21 20 L47 55 L41 31 L58 51" stroke="var(--cor-destaque-2)" stroke-width="4.5"
+               stroke-linecap="round" stroke-linejoin="round" opacity="0.65" />
+         </svg>
+         <span class="marca-divisor" aria-hidden="true"></span>
+         <span class="marca-texto">
+            <span class="marca-nome" data-i18n="marca.nome">Jéssica Nabarro</span>
+            <span class="marca-papel" data-i18n="marca.papel">UX/UI &amp; Product Designer</span>
+         </span>
+      </a>
+
+      <nav class="nav-pilula" aria-label="Navegação principal">
+         <button class="nav-item" type="button" data-destino="projetos" data-i18n="nav.projetos">Projetos</button>
+         <button class="nav-item" type="button" data-destino="sobre" data-i18n="nav.sobre">Quem sou eu</button>
+         <button class="nav-item" type="button" data-destino="contato" data-i18n="nav.contato">Contacto</button>
+         <span class="nav-divisor" aria-hidden="true"></span>
+         <span class="idiomas">
+            <button type="button" class="idioma" data-idioma="pt">PT</button>
+            <span class="idioma-sep" aria-hidden="true">/</span>
+            <button type="button" class="idioma" data-idioma="en">EN</button>
+         </span>
+      </nav>
+
+      <button class="botao-menu" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="gaveta">
+         <span></span><span></span><span></span>
+      </button>
+   </header>
+
+   <!-- Gaveta lateral (mobile). Mesmos destinos da pilula. -->
+   <nav id="gaveta" class="gaveta glass" aria-label="Menu">
+      <button class="gaveta-item" type="button" data-destino="projetos" data-i18n="nav.projetos">Projetos</button>
+      <button class="gaveta-item" type="button" data-destino="sobre" data-i18n="nav.sobre">Quem sou eu</button>
+      <button class="gaveta-item" type="button" data-destino="contato" data-i18n="nav.contato">Contacto</button>
+      <span class="gaveta-idiomas">
+         <button type="button" class="idioma" data-idioma="pt">PT</button>
+         <span class="idioma-sep" aria-hidden="true">/</span>
+         <button type="button" class="idioma" data-idioma="en">EN</button>
+      </span>
+   </nav>
+
+   <!-- A camera (navegacao.js) clona aqui a tela do destino atual -->
+   <main></main>
+
+   <!-- Chat Jessy: HUD preso ao body (chat.js constroi o interior) -->
+   <div id="chat-jessy"></div>
+
+   <!-- Indicador de posicao (semente do minimapa, canto inferior esq.) -->
+   <div class="indicador-posicao" aria-live="polite">
+      <span class="indicador-icone" aria-hidden="true"><span class="indicador-ponto"></span></span>
+      <span class="indicador-texto">Início</span>
+   </div>
+
+   <!-- ================= TEMPLATES DAS TELAS ================= -->
+
+   <!-- HOME: heroi + galeria de projetos (reproducao do design) -->
+   <template id="tpl-home">
+      <section class="pagina-home">
+         <div class="hero">
+            <span class="hero-eyebrow" data-i18n="home.eyebrow">PORTFÓLIO</span>
+            <h1 class="hero-titulo" tabindex="-1"><span data-i18n="home.titulo-1"></span><span
+                  class="accent" data-i18n="home.titulo-2"></span></h1>
+         </div>
+
+         <div class="galeria" data-galeria>
+            <div class="galeria-coord" aria-hidden="true"></div>
+
+            <button class="galeria-vizinho galeria-vizinho--prev" type="button" data-prev
+               aria-label="Projeto anterior">
+               <span class="vizinho-meta" data-prev-meta></span>
+               <span class="vizinho-titulo" data-prev-titulo></span>
+            </button>
+
+            <div class="galeria-centro">
+               <div class="mockup">
+                  <div class="mockup-barra"><span></span><span></span><span></span></div>
+                  <div class="mockup-tela">
+                     <span class="mockup-rotulo"><span data-i18n="galeria.mockup">mockup do case</span>
+                        <b data-centro-mockup></b></span>
+                  </div>
+               </div>
+               <div class="info-card">
+                  <span class="info-meta" data-centro-meta></span>
+                  <h2 class="info-titulo" data-centro-titulo></h2>
+                  <p class="info-result" data-centro-result></p>
+                  <button class="cta" type="button" data-abrir>
+                     <span data-i18n="galeria.cta">Ver o case</span> <span aria-hidden="true">→</span>
+                  </button>
+               </div>
+            </div>
+
+            <button class="galeria-vizinho galeria-vizinho--next" type="button" data-next
+               aria-label="Próximo projeto">
+               <span class="vizinho-meta" data-next-meta></span>
+               <span class="vizinho-titulo" data-next-titulo></span>
+            </button>
+
+            <div class="galeria-dots" data-dots></div>
+         </div>
+      </section>
+   </template>
+
+   <!-- PROJETOS: lista dos quatro cases (acesso direto) -->
+   <template id="tpl-projetos">
+      <section class="pagina-interna">
+         <div class="interna-cabecalho">
+            <span class="interna-eyebrow" data-i18n="home.eyebrow">PORTFÓLIO</span>
+            <h1 tabindex="-1" data-i18n="nav.projetos">Projetos</h1>
+         </div>
+         <ul class="projetos-lista">
+            <li><button class="projeto-card" type="button" data-destino="motorline">
+               <span class="projeto-meta" data-i18n="proj.motorline.meta"></span>
+               <span class="projeto-titulo" data-i18n="proj.motorline.titulo"></span>
+               <span class="projeto-result" data-i18n="proj.motorline.result"></span>
+            </button></li>
+            <li><button class="projeto-card" type="button" data-destino="coinple">
+               <span class="projeto-meta" data-i18n="proj.coinple.meta"></span>
+               <span class="projeto-titulo" data-i18n="proj.coinple.titulo"></span>
+               <span class="projeto-result" data-i18n="proj.coinple.result"></span>
+            </button></li>
+            <li><button class="projeto-card" type="button" data-destino="momentos">
+               <span class="projeto-meta" data-i18n="proj.momentos.meta"></span>
+               <span class="projeto-titulo" data-i18n="proj.momentos.titulo"></span>
+               <span class="projeto-result" data-i18n="proj.momentos.result"></span>
+            </button></li>
+            <li><button class="projeto-card" type="button" data-destino="diagnostico">
+               <span class="projeto-meta" data-i18n="proj.diagnostico.meta"></span>
+               <span class="projeto-titulo" data-i18n="proj.diagnostico.titulo"></span>
+               <span class="projeto-result" data-i18n="proj.diagnostico.result"></span>
+            </button></li>
+         </ul>
+      </section>
+   </template>
+
+   <!-- CASES: esqueleto navegavel (redesenho completo e fase futura) -->
+   <template id="tpl-motorline">
+      <section class="pagina-interna pagina-case">
+         <a class="voltar" href="#projetos" data-destino="projetos"><span aria-hidden="true">←</span>
+            <span data-i18n="nav.voltar-projetos">Voltar para projetos</span></a>
+         <p class="interna-meta" data-i18n="proj.motorline.meta"></p>
+         <h1 tabindex="-1" data-i18n="proj.motorline.titulo">Motorline</h1>
+         <p class="interna-result" data-i18n="proj.motorline.result"></p>
+         <p class="interna-nota" data-i18n="placeholder.em-construcao"></p>
+      </section>
+   </template>
+
+   <template id="tpl-coinple">
+      <section class="pagina-interna pagina-case">
+         <a class="voltar" href="#projetos" data-destino="projetos"><span aria-hidden="true">←</span>
+            <span data-i18n="nav.voltar-projetos">Voltar para projetos</span></a>
+         <p class="interna-meta" data-i18n="proj.coinple.meta"></p>
+         <h1 tabindex="-1" data-i18n="proj.coinple.titulo">Coinple</h1>
+         <p class="interna-result" data-i18n="proj.coinple.result"></p>
+         <p class="interna-nota" data-i18n="placeholder.em-construcao"></p>
+      </section>
+   </template>
+
+   <template id="tpl-momentos">
+      <section class="pagina-interna pagina-case">
+         <a class="voltar" href="#projetos" data-destino="projetos"><span aria-hidden="true">←</span>
+            <span data-i18n="nav.voltar-projetos">Voltar para projetos</span></a>
+         <p class="interna-meta" data-i18n="proj.momentos.meta"></p>
+         <h1 tabindex="-1" data-i18n="proj.momentos.titulo">Momentos</h1>
+         <p class="interna-result" data-i18n="proj.momentos.result"></p>
+         <p class="interna-nota" data-i18n="placeholder.em-construcao"></p>
+      </section>
+   </template>
+
+   <template id="tpl-diagnostico">
+      <section class="pagina-interna pagina-case">
+         <a class="voltar" href="#projetos" data-destino="projetos"><span aria-hidden="true">←</span>
+            <span data-i18n="nav.voltar-projetos">Voltar para projetos</span></a>
+         <p class="interna-meta" data-i18n="proj.diagnostico.meta"></p>
+         <h1 tabindex="-1" data-i18n="proj.diagnostico.titulo">Diagnóstico de Liderança</h1>
+         <p class="interna-result" data-i18n="proj.diagnostico.result"></p>
+         <p class="interna-nota" data-i18n="placeholder.em-construcao"></p>
+      </section>
+   </template>
+
+   <!-- QUEM SOU EU: esqueleto navegavel -->
+   <template id="tpl-sobre">
+      <section class="pagina-interna">
+         <div class="interna-cabecalho">
+            <span class="interna-eyebrow" data-i18n="sobre.eyebrow">Quem sou eu</span>
+            <h1 tabindex="-1" data-i18n="sobre.titulo"></h1>
+         </div>
+         <p class="interna-nota" data-i18n="placeholder.em-construcao"></p>
+      </section>
+   </template>
+
+   <!-- CONTACTO: esqueleto navegavel -->
+   <template id="tpl-contato">
+      <section class="pagina-interna">
+         <div class="interna-cabecalho">
+            <h1 tabindex="-1" data-i18n="contato.titulo">Contacto</h1>
+            <p class="interna-intro" data-i18n="contato.intro"></p>
+         </div>
+         <a class="contato-email" href="mailto:jeh.nabarro@gmail.com" data-i18n="contato.email">jeh.nabarro@gmail.com</a>
+         <p class="interna-nota" data-i18n="placeholder.em-construcao"></p>
+      </section>
+   </template>
+
+</body>
+
+</html>
