@@ -413,18 +413,26 @@ main { position: relative; z-index: var(--z-base); }
 }
 .mockup[data-tipo="desktop"] .mockup-stand { display: flex; }
 
-/* TABLET (Momentos): 3:4 com moldura mais grossa */
+/* TABLET (Momentos): tablet horizontal (4:3) + telemovel sobreposto a frente */
 .mockup[data-tipo="tablet"] .fone--tablet {
    display: flex;
-   left: 50%; top: 50%; transform: translate(-50%, -50%);
-   height: 100%;
-   aspect-ratio: 3 / 4;
-   max-width: 100%;
+   left: 2%; top: 50%; transform: translateY(-50%);
+   height: 82%;
+   aspect-ratio: 4 / 3;
+   max-width: 82%;
    padding: var(--esp-8);
    border-width: 2px;
    border-color: var(--branco-a14);
-   z-index: 2;
+   z-index: 1;
 }
+.mockup[data-tipo="tablet"] .fone--centro {
+   display: flex;
+   right: 4%; top: 50%; transform: translateY(-50%);
+   height: 96%;
+   aspect-ratio: 9 / 19.5;
+   z-index: 3;
+}
+.mockup[data-tipo="tablet"] .fone--centro .fone-rotulo { display: none; }
 
 /* MOBILE (Coinple): 3 telemoveis 9:19.5, o do centro por cima dos laterais */
 .mockup[data-tipo="mobile"] .fone--centro {
@@ -439,15 +447,6 @@ main { position: relative; z-index: var(--z-base); }
 .mockup[data-tipo="mobile"] .fone--dir {
    display: flex; right: 8%; top: 50%; transform: translateY(-50%);
    height: 88%; aspect-ratio: 9 / 19.5; z-index: 1; opacity: .82; box-shadow: none;
-}
-
-/* Quadrado de vidro vazio ao lado (dica de galeria): so no mobile */
-.galeria-peek {
-   display: none;
-   flex: none;
-   align-self: stretch;
-   width: var(--esp-48);
-   border-radius: var(--raio-md);
 }
 
 /* Cartao de informacao do case ativo (UM so, ao lado do mockup) */
@@ -785,10 +784,21 @@ main { position: relative; z-index: var(--z-base); }
 
    .galeria-centro { flex-direction: column; align-items: center; gap: var(--esp-24); height: auto; }
    .info-card { width: var(--largura-info); }
-   .mockup-linha { width: min(100%, var(--largura-info)); gap: var(--esp-16); }
+   /* Mockup encolhe para deixar margem aos slivers laterais */
+   .mockup-linha { width: calc(100% - var(--modulo)); }
    .mockup { flex: 1; width: auto; }
-   .galeria-vizinho { display: none; }
-   .galeria-peek { display: block; }
+   /* Indicativo de outros projetos: slivers finos e clicaveis dos dois lados */
+   .galeria-vizinho {
+      display: flex;
+      width: var(--esp-24);
+      height: var(--altura-mockup);
+      padding: 0;
+      overflow: hidden;
+      z-index: var(--z-elevado);
+   }
+   .galeria-vizinho .vizinho-meta, .galeria-vizinho .vizinho-titulo { display: none; }
+   .galeria-vizinho--prev { left: 0; transform: translateY(-50%); }
+   .galeria-vizinho--next { right: 0; transform: translateY(-50%); }
 }
 
 /* Desktop baixo (13"): compacta a composicao para a galeria assentar
