@@ -49,6 +49,8 @@
    --rosa-500: #B65EDB;    /* accent principal (marca) */
    --rosa-400: #C97FE6;    /* segundo traco da marca */
    --rosa-300: #D8AEF0;    /* texto sobre accent suave */
+   --lilas-300: #C996F2;   /* traco medio da marca (logo) */
+   --lilas-100: #F3DDF9;   /* traco claro da marca (logo) */
 
    --neutro-100: #EDECF2;  /* titulo / texto forte */
    --neutro-300: #BFBACB;  /* corpo de chat */
@@ -106,6 +108,11 @@
    --cor-destaque: var(--rosa-500);
    --cor-destaque-2: var(--rosa-400);       /* apenas o 2o traco da marca */
    --cor-destaque-suave: var(--rosa-300);   /* texto sobre superficie roxa */
+   --cor-destaque-vivida: var(--rosa-400);  /* realce vivo do logo */
+
+   /* Marca (logo Jessica): tracos medio e claro em lilas */
+   --cor-marca-media: var(--lilas-300);
+   --cor-marca-clara: var(--lilas-100);
 
    --cor-borda: var(--branco-a09);
    --cor-borda-suave: var(--branco-a06);
@@ -296,9 +303,10 @@
 
    /* Galeria (mobile: um ativo por vez, vizinhos nas bordas) */
    --largura-galeria: 100%;
-   --largura-mockup: min(100%, calc(var(--modulo) * 7));   /* 448px cap */
+   --largura-mockup: min(100%, calc(var(--modulo) * 5));   /* 320px cap (menor no mobile) */
    --largura-info: min(100%, calc(var(--modulo) * 8));     /* 512px cap */
-   --largura-vizinho: calc(var(--modulo) * 4);             /* 256px */
+   --largura-vizinho: calc(var(--modulo) * 3);             /* 192px */
+   --altura-mockup: calc(var(--modulo) * 4);               /* palco de mockup (mesma altura p/ todos) */
    --offset-vizinho: 0px;                                  /* colado a borda (0 modulos) */
 }
 
@@ -325,7 +333,7 @@
 @media (min-width: 1024px) {
    :root {
       --padding-pagina: var(--esp-64);       /* margem = 1 modulo */
-      --padding-topo: var(--esp-48);
+      --padding-topo: var(--esp-64);          /* topo alinhado ao grid (64) */
       --gap-seccao: var(--esp-64);
       --margem-indicador: var(--esp-64);
       --largura-conteudo: 1200px;
@@ -336,7 +344,8 @@
       --largura-galeria: calc(var(--modulo) * 17);    /* 1088px */
       --largura-mockup: calc(var(--modulo) * 7);      /* 448px */
       --largura-info: calc(var(--modulo) * 5);        /* 320px */
-      --largura-vizinho: calc(var(--modulo) * 4);     /* 256px */
+      --largura-vizinho: calc(var(--modulo) * 3);     /* 192px (menor, uniforme) */
+      --altura-mockup: calc(var(--modulo) * 5);       /* 320px, palco unico p/ todos os mockups */
       --offset-vizinho: 0px;                          /* vizinhos colados a borda da galeria */
    }
 }

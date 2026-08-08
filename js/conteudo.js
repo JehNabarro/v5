@@ -33,18 +33,19 @@ export const strings = {
 
       // Home: eyebrow + titulo do heroi
       'home.eyebrow': 'PORTFÓLIO',
-      'home.titulo-1': 'Projeto o que é difícil ',
-      'home.titulo-2': 'até ficar óbvio.',
+      'home.titulo-1': 'Simplifico o ',
+      'home.titulo-2': 'complicado.',
 
-      // Galeria: rotulo do mockup e CTA
+      // Galeria: rotulo do mockup, CTA e tag de projeto pessoal
       'galeria.mockup': 'mockup do case',
       'galeria.cta': 'Ver o case',
       'galeria.anterior': 'Projeto anterior',
       'galeria.proximo': 'Próximo projeto',
+      'galeria.pessoal': 'Projeto pessoal',
 
       // Chat (HUD)
       'chat.intro': 'Diz-me o que procuras e eu abro o case certo.',
-      'chat.placeholder': 'Faz uma pergunta…',
+      'chat.placeholder': 'Diz-me o que procuras e eu abro o case certo.',
       'chat.enviar': 'Enviar pergunta',
       'chat.chip-projetos': 'Ver projetos',
       'chat.chip-sobre': 'Sobre mim',
@@ -108,16 +109,17 @@ export const strings = {
       'nav.voltar-projetos': 'Back to projects',
 
       'home.eyebrow': 'PORTFOLIO',
-      'home.titulo-1': "I design what is hard ",
-      'home.titulo-2': 'until it feels obvious.',
+      'home.titulo-1': 'I simplify the ',
+      'home.titulo-2': 'complicated.',
 
       'galeria.mockup': 'case mockup',
       'galeria.cta': 'Open the case',
       'galeria.anterior': 'Previous project',
       'galeria.proximo': 'Next project',
+      'galeria.pessoal': 'Personal project',
 
       'chat.intro': "Tell me what you need and I'll open the right case.",
-      'chat.placeholder': 'Ask me anything…',
+      'chat.placeholder': "Tell me what you need and I'll open the right case.",
       'chat.enviar': 'Send question',
       'chat.chip-projetos': 'See projects',
       'chat.chip-sobre': 'About me',
@@ -168,11 +170,14 @@ export const strings = {
 //    coordenada: passos de --modulo (lida pela camera na fase do grid).
 //    ordem: a mesma do design (default ativo = diagnostico, indice 3).
 // ============================================================
+// `mockup`: variante visual do esqueleto na galeria da home
+//   'desktop' = moldura de navegador; 'mobile' = telemovel;
+//   'duo' = telemovel + desktop. `pessoal`: mostra a tag "Projeto pessoal".
 export const projetos = [
-   { id: 'motorline',   coordenada: { x: 1, y: 0 }, template: 'motorline' },
-   { id: 'coinple',     coordenada: { x: 2, y: 0 }, template: 'coinple' },
-   { id: 'momentos',    coordenada: { x: 3, y: 0 }, template: 'momentos' },
-   { id: 'diagnostico', coordenada: { x: 4, y: 0 }, template: 'diagnostico' }
+   { id: 'motorline',   coordenada: { x: 1, y: 0 }, template: 'motorline',   mockup: 'desktop' },
+   { id: 'coinple',     coordenada: { x: 2, y: 0 }, template: 'coinple',     mockup: 'mobile', pessoal: true },
+   { id: 'momentos',    coordenada: { x: 3, y: 0 }, template: 'momentos',    mockup: 'duo' },
+   { id: 'diagnostico', coordenada: { x: 4, y: 0 }, template: 'diagnostico', mockup: 'desktop' }
 ];
 
 // Coordenadas das telas nao-projeto (para a camera futura)

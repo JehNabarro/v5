@@ -16,8 +16,9 @@ let ativo = Math.max(0, projetos.findIndex((p) => p.id === 'diagnostico'));
 
 // Grupo de navegacao ativo por destino (um case marca "Projetos")
 function grupoDe(id) {
+   if (id === 'home') return 'home';       // marca "Inicio"
    if (id === 'sobre' || id === 'contato') return id;
-   return 'projetos'; // home, projetos e todos os cases
+   return 'projetos'; // projetos e todos os cases
 }
 
 // ------------------------------------------------------------
@@ -69,11 +70,10 @@ function marcarIdioma() {
    });
 }
 
-// Marca a pilula/gaveta da tela atual
+// Marca a pilula E a gaveta da tela atual
 function marcarNav(id) {
    const grupo = grupoDe(id);
-   document.querySelectorAll('[data-destino]').forEach((el) => {
-      if (!el.classList.contains('nav-item')) return;
+   document.querySelectorAll('.nav-item, .gaveta-item').forEach((el) => {
       el.classList.toggle('ativo', el.getAttribute('data-destino') === grupo);
    });
 }
@@ -120,7 +120,8 @@ function initGaleria(seccao) {
    const n = projetos.length;
    const idx = () => ((ativo % n) + n) % n;
 
-   const centroMock = galeria.querySelector('[data-centro-mockup]');
+   const mockup = galeria.querySelector('[data-mockup]');
+   const centroMocks = galeria.querySelectorAll('[data-centro-mockup]');
    const centroMeta = galeria.querySelector('[data-centro-meta]');
    const centroTitulo = galeria.querySelector('[data-centro-titulo]');
    const centroResult = galeria.querySelector('[data-centro-result]');
@@ -140,7 +141,14 @@ function initGaleria(seccao) {
       const prev = projetos[(i - 1 + n) % n];
       const next = projetos[(i + 1) % n];
 
-      if (centroMock) centroMock.textContent = t('proj.' + p.id + '.titulo');
+      // Variante do mockup (desktop / mobile / duo) e tag de projeto pessoal
+      if (mockup) {
+         mockup.setAttribute('data-tipo', p.mockup || 'desktop');
+         if (p.pessoal) mockup.setAttribute('data-pessoal', 'true');
+         else mockup.removeAttribute('data-pessoal');
+      }
+      const titulo = t('proj.' + p.id + '.titulo');
+      centroMocks.forEach((el) => { el.textContent = titulo; });
       if (centroMeta) centroMeta.textContent = t('proj.' + p.id + '.meta');
       if (centroTitulo) centroTitulo.textContent = t('proj.' + p.id + '.titulo');
       if (centroResult) centroResult.textContent = t('proj.' + p.id + '.result');

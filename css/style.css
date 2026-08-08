@@ -97,18 +97,18 @@ body.loaded .indicador-posicao {
    align-items: center;
    justify-content: space-between;
    gap: var(--esp-16);
-   height: calc(var(--alt-header) + var(--padding-topo) * 2);
-   padding: var(--padding-topo) var(--padding-pagina);
+   height: calc(var(--alt-header) + var(--padding-topo) + var(--esp-32));
+   padding: var(--padding-topo) var(--padding-pagina) var(--esp-32);
 }
 
 .marca {
    display: flex;
    align-items: center;
-   gap: var(--esp-24);
+   gap: var(--esp-16);
    text-decoration: none;
    color: inherit;
 }
-.marca-simbolo { flex: none; filter: drop-shadow(0 0 12px var(--rosa-a40)); }
+.marca-simbolo { flex: none; width: 62px; height: 48px; filter: drop-shadow(0 0 10px var(--rosa-a35)); }
 .marca-divisor { width: 1px; height: var(--tam-marca-divisor); background: var(--cor-borda-forte); }
 .marca-texto { display: flex; flex-direction: column; }
 .marca-nome {
@@ -199,7 +199,7 @@ body.loaded .indicador-posicao {
    z-index: var(--z-drawer);
    height: 100%;
    width: var(--largura-gaveta);
-   padding: calc(var(--alt-header) + var(--padding-topo) * 2) var(--esp-24) var(--esp-24);
+   padding: calc(var(--alt-header) + var(--padding-topo) + var(--esp-32)) var(--esp-24) var(--esp-24);
    display: flex;
    flex-direction: column;
    gap: var(--esp-16);
@@ -219,6 +219,11 @@ body.gaveta-aberta .gaveta { transform: translateX(0); }
    cursor: pointer;
 }
 .gaveta-item:hover { background: var(--branco-a06); }
+.gaveta-item.ativo {
+   border-color: var(--cor-borda-accent-suave);
+   background: var(--rosa-a14);
+   color: var(--cor-destaque-suave);
+}
 .gaveta-idiomas { margin-top: auto; padding: 0; }
 
 /* =========================================================
@@ -235,9 +240,9 @@ main { position: relative; z-index: var(--z-base); }
    to   { opacity: 1; transform: none; }
 }
 
-/* Espaco reservado no topo para o header fixo */
+/* Espaco reservado no topo para o header fixo (topo + 32 em baixo) */
 .pagina-home, .pagina-interna {
-   --topo-tela: calc(var(--alt-header) + var(--padding-topo) * 2);
+   --topo-tela: calc(var(--alt-header) + var(--padding-topo) + var(--esp-32));
 }
 
 /* =========================================================
@@ -318,21 +323,32 @@ main { position: relative; z-index: var(--z-base); }
    align-items: stretch;
    gap: var(--esp-32);
 }
+.mockup-linha { display: flex; align-items: stretch; }
 
-/* Monitor mockup (placeholder do design) */
+/* -------- Palco do mockup: altura unica p/ todos os projetos -------
+   Um so palco (--altura-mockup); a variante (data-tipo) troca as
+   molduras dentro dele. desktop = navegador; mobile = telemovel;
+   duo = telemovel + desktop. data-pessoal mostra a tag. */
 .mockup {
+   position: relative;
+   flex: none;
    width: var(--largura-mockup);
-   border-radius: var(--raio-lg);
-   padding: var(--esp-8);
+   height: var(--altura-mockup);
+}
+
+/* Moldura base (navegador ou telemovel) */
+.frame {
+   position: absolute;
+   display: none;
+   flex-direction: column;
+   overflow: hidden;
    background: var(--cor-mockup);
    border: 1px solid var(--branco-a10);
    box-shadow: var(--sombra-mockup);
 }
-.mockup-tela {
+.frame-tela {
    position: relative;
-   aspect-ratio: 16 / 10;
-   border-radius: var(--raio-sm);
-   overflow: hidden;
+   flex: 1;
    display: flex;
    align-items: center;
    justify-content: center;
@@ -340,10 +356,8 @@ main { position: relative; z-index: var(--z-base); }
       var(--cor-mockup-listra-a) 0 14px,
       var(--cor-mockup-listra-b) 14px 28px);
 }
-.mockup-barra {
-   position: absolute;
-   top: var(--esp-8); left: var(--esp-8); right: var(--esp-8);
-   z-index: 1;
+.frame-barra {
+   flex: none;
    height: var(--esp-32);
    display: flex;
    align-items: center;
@@ -351,11 +365,71 @@ main { position: relative; z-index: var(--z-base); }
    padding: 0 var(--esp-16);
    background: var(--branco-a06);
    border-bottom: 1px solid var(--cor-borda-suave);
-   border-radius: var(--raio-sm) var(--raio-sm) 0 0;
 }
-.mockup-barra span { width: var(--tam-dot); height: var(--tam-dot); border-radius: 50%; background: var(--cor-mockup-ponto); }
-.mockup-rotulo { font-family: var(--fonte-mono); font-size: var(--papel-meta-tam); color: var(--cor-texto-dim); text-align: center; padding: 0 var(--esp-24); }
-.mockup-rotulo b { color: var(--cor-texto); font-weight: var(--peso-semi); }
+.frame-barra span { width: var(--tam-dot); height: var(--tam-dot); border-radius: 50%; background: var(--cor-mockup-ponto); }
+.frame-notch {
+   flex: none;
+   width: var(--esp-32); height: var(--esp-8);
+   margin: var(--esp-8) auto 0;
+   border-radius: var(--raio-pill);
+   background: var(--cor-mockup-ponto);
+}
+.frame-rotulo { font-family: var(--fonte-mono); font-size: var(--papel-meta-tam); color: var(--cor-texto-dim); text-align: center; padding: 0 var(--esp-16); }
+.frame-rotulo b { color: var(--cor-texto); font-weight: var(--peso-semi); }
+.frame--desktop { border-radius: var(--raio-lg); }
+.frame--mobile { border-radius: var(--raio-lg); }
+
+/* Variante DESKTOP (Motorline, Diagnostico): navegador preenche o palco */
+.mockup[data-tipo="desktop"] .frame--desktop { display: flex; inset: 0; }
+
+/* Variante MOBILE (Coinple): so telemovel, centrado */
+.mockup[data-tipo="mobile"] .frame--mobile {
+   display: flex;
+   top: 0; bottom: 0;
+   left: 50%; transform: translateX(-50%);
+   width: calc(var(--altura-mockup) * 0.5);
+}
+
+/* Variante DUO (Momentos): desktop atras a esquerda + telemovel a frente */
+.mockup[data-tipo="duo"] .frame--desktop {
+   display: flex;
+   left: 0; top: 8%;
+   width: 76%; height: 84%;
+}
+.mockup[data-tipo="duo"] .frame--mobile {
+   display: flex;
+   right: 0; bottom: 0;
+   height: 94%;
+   width: calc(var(--altura-mockup) * 0.42);
+   z-index: 1;
+}
+
+/* Tag "Projeto pessoal" (so quando data-pessoal) */
+.mockup-tag {
+   display: none;
+   position: absolute;
+   z-index: 2;
+   top: var(--esp-16); right: var(--esp-16);
+   padding: var(--esp-8) var(--esp-16);
+   border-radius: var(--raio-pill);
+   background: var(--rosa-a20);
+   border: 1px solid var(--rosa-a40);
+   color: var(--cor-destaque-suave);
+   font-size: var(--papel-meta-tam);
+   font-weight: var(--papel-meta-peso);
+   letter-spacing: var(--papel-meta-ls);
+   text-transform: uppercase;
+}
+.mockup[data-pessoal="true"] .mockup-tag { display: inline-flex; }
+
+/* Quadrado de vidro vazio ao lado (dica de galeria): so no mobile */
+.galeria-peek {
+   display: none;
+   flex: none;
+   align-self: stretch;
+   width: var(--esp-48);
+   border-radius: var(--raio-md);
+}
 
 /* Cartao de informacao do case ativo (UM so, ao lado do mockup) */
 .info-card {
@@ -412,11 +486,16 @@ main { position: relative; z-index: var(--z-base); }
 .cta:hover { filter: brightness(1.08); }
 
 /* Vizinhos (prev / next): projetos vizinhos espreitando atras do
-   ativo, em escala menor e opacidade reduzida. */
+   ativo, em escala menor e opacidade reduzida. Alinhados ao topo do
+   centro e com a mesma altura do mockup, para nao descerem abaixo da
+   galeria alem do respiro do card. */
 .galeria-vizinho {
    position: absolute;
-   top: calc(50% - var(--esp-16));
+   top: 0;
+   height: var(--altura-mockup);
    width: var(--largura-vizinho);
+   display: flex;
+   flex-direction: column;
    text-align: left;
    cursor: pointer;
    padding: var(--esp-24);
@@ -430,8 +509,8 @@ main { position: relative; z-index: var(--z-base); }
    z-index: var(--z-base);
 }
 .galeria-vizinho:hover { opacity: .72; }
-.galeria-vizinho--prev { left: var(--offset-vizinho); transform-origin: left center; transform: translateY(-50%) scale(.82); }
-.galeria-vizinho--next { right: var(--offset-vizinho); transform-origin: right center; transform: translateY(-50%) scale(.82); }
+.galeria-vizinho--prev { left: var(--offset-vizinho); transform-origin: left top; transform: scale(.82); }
+.galeria-vizinho--next { right: var(--offset-vizinho); transform-origin: right top; transform: scale(.82); }
 .vizinho-meta {
    display: block;
    color: var(--cor-texto-dim);
@@ -477,12 +556,12 @@ main { position: relative; z-index: var(--z-base); }
    reais do chat recebem ponteiro. */
 .chat--home {
    left: 50%;
-   bottom: var(--padding-pagina);
+   bottom: var(--esp-32);
    transform: translateX(-50%);
    width: min(var(--largura-chat), calc(100vw - var(--padding-pagina) * 2));
    display: flex;
    flex-direction: column;
-   align-items: center;
+   align-items: stretch;
    gap: var(--gap-chat);
    background: transparent;
    border: none;
@@ -492,29 +571,6 @@ main { position: relative; z-index: var(--z-base); }
 }
 .chat--home .chat-form,
 .chat--home .chat-chip { pointer-events: auto; }
-.chat-intro { display: flex; align-items: center; gap: var(--esp-16); max-width: calc(var(--modulo) * 9); }
-.chat-avatar {
-   flex: none;
-   width: var(--tam-avatar); height: var(--tam-avatar);
-   border-radius: 50%;
-   display: flex; align-items: center; justify-content: center;
-   background: var(--rosa-a20);
-   border: 1px solid var(--rosa-a40);
-   color: var(--cor-destaque-suave);
-   font-size: var(--papel-eyebrow-tam); font-weight: var(--peso-forte);
-}
-.chat-intro-texto {
-   display: flex; align-items: center;
-   padding: var(--esp-16) var(--esp-24);
-   border-radius: var(--raio-lg);
-   background: var(--cor-vidro);
-   -webkit-backdrop-filter: blur(var(--blur-vidro));
-   backdrop-filter: blur(var(--blur-vidro));
-   border: var(--borda-vidro);
-   color: var(--cor-texto-corpo);
-   font-size: var(--texto-md);
-   line-height: 1.4;
-}
 .chat-form {
    display: flex;
    align-items: center;
@@ -550,7 +606,7 @@ main { position: relative; z-index: var(--z-base); }
    box-shadow: var(--sombra-cta);
 }
 .chat-enviar svg { width: 22px; height: 22px; }
-.chat-chips { display: flex; gap: var(--esp-16); flex-wrap: wrap; justify-content: center; }
+.chat-chips { display: flex; gap: var(--esp-16); flex-wrap: wrap; justify-content: flex-start; }
 /* Chips conversacionais: todos em vidro (o roxo fica so no botao enviar) */
 .chat-chip {
    padding: var(--esp-8) var(--esp-16);
@@ -592,17 +648,11 @@ main { position: relative; z-index: var(--z-base); }
 .indicador-posicao {
    position: fixed;
    left: var(--margem-indicador);
-   bottom: var(--margem-indicador);
+   bottom: var(--esp-32);
    z-index: var(--z-indicador);
    display: inline-flex;
    align-items: center;
    gap: var(--esp-8);
-   padding: var(--esp-8) var(--esp-16) var(--esp-8) var(--esp-8);
-   border-radius: var(--raio-pill);
-   background: var(--cor-vidro);
-   -webkit-backdrop-filter: blur(var(--blur-vidro));
-   backdrop-filter: blur(var(--blur-vidro));
-   border: var(--borda-vidro);
    pointer-events: none;
 }
 .indicador-icone {
@@ -695,35 +745,38 @@ main { position: relative; z-index: var(--z-base); }
    degraus de token acima). Aqui: reflow estrutural da home/chat.
    ========================================================= */
 
-/* Ate 1023px: galeria empilha, vizinhos viram slivers, header colapsa */
+/* Ate 1023px: galeria empilha, header colapsa. Os vizinhos dao lugar
+   a um quadrado de vidro vazio ao lado do mockup (dica de galeria). */
 @media (max-width: 1023px) {
    .nav-pilula { display: none; }
    .botao-menu { display: flex; }
-   .marca-papel { display: none; }
+   /* Marca: mantem nome + cargo; reduz o espaco logo/texto para caber */
+   .marca { gap: var(--esp-8); }
+   .marca-divisor { display: none; }
+   .marca-papel { display: block; font-size: var(--texto-sm); }
 
    .galeria-centro { flex-direction: column; align-items: center; gap: var(--esp-24); }
    .info-card { width: var(--largura-info); }
-   .mockup { width: var(--largura-mockup); }
-   .galeria-vizinho { width: var(--esp-48); padding: 0; height: calc(var(--modulo) * 4); border-radius: var(--raio-md); overflow: hidden; }
-   .galeria-vizinho .vizinho-meta, .galeria-vizinho .vizinho-titulo { display: none; }
-   .galeria-vizinho--prev { left: 0; }
-   .galeria-vizinho--next { right: 0; }
+   .mockup-linha { width: min(100%, var(--largura-info)); gap: var(--esp-16); }
+   .mockup { flex: 1; width: auto; }
+   .galeria-vizinho { display: none; }
+   .galeria-peek { display: block; }
    .galeria-coord { width: 120%; height: calc(var(--modulo) * 5); }
 }
 
 /* Desktop baixo (13"): compacta a composicao para a galeria assentar
-   acima do chat em repouso sem sobreposicao. So troca degraus da escala
-   e larguras de modulo; nao muda a estrutura. */
+   acima do chat em repouso sem sobreposicao. So troca degraus da escala;
+   nao muda a estrutura. */
 @media (min-width: 1024px) and (max-height: 980px) {
+   :root { --altura-mockup: calc(var(--modulo) * 4); }  /* 256px */
    .pagina-home { gap: var(--esp-32); padding-top: var(--topo-tela); }
-   .mockup { width: calc(var(--modulo) * 6); }   /* 384px, ~240 de altura */
    .galeria { gap: var(--esp-16); }
-   .chat-intro { display: none; }                 /* a linha da Jessica cede espaco vertical */
 }
 
 /* Ate 767px: chat vira barra fixa no rodape com chips logo acima */
 @media (max-width: 767px) {
-   .marca-simbolo { width: 46px; height: 46px; }
+   :root { --altura-mockup: calc(var(--modulo) * 3); }  /* mockup menor no mobile */
+   .marca-simbolo { width: 52px; height: 41px; }
    .marca-nome { font-size: var(--papel-corpo-tam); }
 
    .hero-titulo { font-size: var(--texto-hero-mobile); }
@@ -739,7 +792,6 @@ main { position: relative; z-index: var(--z-base); }
       backdrop-filter: blur(var(--blur-vidro-forte));
       border-top: var(--borda-vidro);
    }
-   .chat--home .chat-intro { display: none; }
    /* Chips visiveis, logo acima da barra de input, em fila deslizavel */
    .chat--home .chat-chips {
       display: flex;
@@ -757,8 +809,8 @@ main { position: relative; z-index: var(--z-base); }
 
    .chat--flutuante { left: 0; right: 0; bottom: 0; width: 100%; padding: var(--esp-8) var(--padding-pagina) calc(var(--esp-8) + env(safe-area-inset-bottom)); border-radius: 0; }
 
-   /* Indicador sobe acima da barra do chat (chips + input) para nao colidir */
-   .indicador-posicao { bottom: calc(var(--modulo) * 2 + var(--esp-32)); }
+   /* Indicador de posicao nao aparece no mobile */
+   .indicador-posicao { display: none; }
 
    .pagina-home { padding-bottom: calc(var(--modulo) * 4); }
 }

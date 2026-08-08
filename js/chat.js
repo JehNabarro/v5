@@ -28,10 +28,6 @@ function acionar(id) {
 function construir() {
    raiz.className = 'chat chat--home glass';
    raiz.innerHTML = `
-      <div class="chat-intro">
-         <span class="chat-avatar" data-i18n="chat.avatar">JN</span>
-         <span class="chat-intro-texto" data-i18n="chat.intro"></span>
-      </div>
       <form class="chat-form">
          <input class="chat-input" type="text" autocomplete="off"
             data-i18n-attr="placeholder:chat.placeholder; aria-label:chat.placeholder" />
