@@ -132,7 +132,7 @@
             <div class="galeria-centro">
                <div class="mockup-linha">
                   <div class="mockup" data-mockup>
-                     <span class="mockup-tag" data-i18n="galeria.pessoal">Projeto pessoal</span>
+                     <!-- Monitor desktop (Motorline, Diagnostico; e o fundo do duo) -->
                      <div class="frame frame--desktop">
                         <div class="frame-barra" aria-hidden="true"><span></span><span></span><span></span></div>
                         <div class="frame-tela">
@@ -140,17 +140,19 @@
                               <b data-centro-mockup></b></span>
                         </div>
                      </div>
-                     <div class="frame frame--mobile">
-                        <div class="frame-notch" aria-hidden="true"></div>
-                        <div class="frame-tela">
-                           <span class="frame-rotulo frame-rotulo--mobile"><b data-centro-mockup></b></span>
-                        </div>
+                     <div class="mockup-stand" aria-hidden="true">
+                        <span class="stand-neck"></span><span class="stand-base"></span>
                      </div>
+                     <!-- Telemoveis: laterais (Coinple) + centro (Coinple e duo) -->
+                     <div class="fone fone--esq" aria-hidden="true"><span class="fone-tela"></span></div>
+                     <div class="fone fone--dir" aria-hidden="true"><span class="fone-tela"></span></div>
+                     <div class="fone fone--centro"><span class="fone-tela"><b class="fone-rotulo" data-centro-mockup></b></span></div>
                   </div>
                   <div class="galeria-peek glass" aria-hidden="true"></div>
                </div>
                <div class="info-card">
                   <span class="info-meta" data-centro-meta></span>
+                  <span class="info-tag" data-info-tag data-i18n="galeria.pessoal" hidden>Projeto pessoal</span>
                   <h2 class="info-titulo" data-centro-titulo></h2>
                   <p class="info-result" data-centro-result></p>
                   <button class="cta" type="button" data-abrir>

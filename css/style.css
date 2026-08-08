@@ -328,7 +328,7 @@ main { position: relative; z-index: var(--z-base); }
 /* -------- Palco do mockup: altura unica p/ todos os projetos -------
    Um so palco (--altura-mockup); a variante (data-tipo) troca as
    molduras dentro dele. desktop = navegador; mobile = telemovel;
-   duo = telemovel + desktop. data-pessoal mostra a tag. */
+   duo = telemovel + desktop. A tag "Projeto pessoal" vive no info-card. */
 .mockup {
    position: relative;
    flex: none;
@@ -336,7 +336,7 @@ main { position: relative; z-index: var(--z-base); }
    height: var(--altura-mockup);
 }
 
-/* Moldura base (navegador ou telemovel) */
+/* Moldura de ecra (navegador / monitor) */
 .frame {
    position: absolute;
    display: none;
@@ -367,60 +367,68 @@ main { position: relative; z-index: var(--z-base); }
    border-bottom: 1px solid var(--cor-borda-suave);
 }
 .frame-barra span { width: var(--tam-dot); height: var(--tam-dot); border-radius: 50%; background: var(--cor-mockup-ponto); }
-.frame-notch {
-   flex: none;
-   width: var(--esp-32); height: var(--esp-8);
-   margin: var(--esp-8) auto 0;
-   border-radius: var(--raio-pill);
-   background: var(--cor-mockup-ponto);
-}
 .frame-rotulo { font-family: var(--fonte-mono); font-size: var(--papel-meta-tam); color: var(--cor-texto-dim); text-align: center; padding: 0 var(--esp-16); }
 .frame-rotulo b { color: var(--cor-texto); font-weight: var(--peso-semi); }
 .frame--desktop { border-radius: var(--raio-lg); }
-.frame--mobile { border-radius: var(--raio-lg); }
 
-/* Variante DESKTOP (Motorline, Diagnostico): navegador preenche o palco */
-.mockup[data-tipo="desktop"] .frame--desktop { display: flex; inset: 0; }
-
-/* Variante MOBILE (Coinple): so telemovel, centrado */
-.mockup[data-tipo="mobile"] .frame--mobile {
-   display: flex;
-   top: 0; bottom: 0;
-   left: 50%; transform: translateX(-50%);
-   width: calc(var(--altura-mockup) * 0.5);
-}
-
-/* Variante DUO (Momentos): desktop atras a esquerda + telemovel a frente */
-.mockup[data-tipo="duo"] .frame--desktop {
-   display: flex;
-   left: 0; top: 8%;
-   width: 76%; height: 84%;
-}
-.mockup[data-tipo="duo"] .frame--mobile {
-   display: flex;
-   right: 0; bottom: 0;
-   height: 94%;
-   width: calc(var(--altura-mockup) * 0.42);
-   z-index: 1;
-}
-
-/* Tag "Projeto pessoal" (so quando data-pessoal) */
-.mockup-tag {
+/* Base do monitor (pescoco + pe), so na variante desktop */
+.mockup-stand {
    display: none;
    position: absolute;
-   z-index: 2;
-   top: var(--esp-16); right: var(--esp-16);
-   padding: var(--esp-8) var(--esp-16);
-   border-radius: var(--raio-pill);
-   background: var(--rosa-a20);
-   border: 1px solid var(--rosa-a40);
-   color: var(--cor-destaque-suave);
-   font-size: var(--papel-meta-tam);
-   font-weight: var(--papel-meta-peso);
-   letter-spacing: var(--papel-meta-ls);
-   text-transform: uppercase;
+   left: 0; right: 0; bottom: 0;
+   height: var(--esp-48);
+   flex-direction: column;
+   align-items: center;
 }
-.mockup[data-pessoal="true"] .mockup-tag { display: inline-flex; }
+.stand-neck {
+   width: var(--modulo); height: var(--esp-24);
+   background: var(--cor-mockup);
+   border-left: 1px solid var(--branco-a10);
+   border-right: 1px solid var(--branco-a10);
+}
+.stand-base {
+   width: 32%; height: var(--esp-8);
+   border-radius: var(--raio-pill);
+   background: var(--cor-mockup);
+   border: 1px solid var(--branco-a10);
+}
+
+/* Telemovel: bezel fino em volta de todo o aparelho (sem barra no topo) */
+.fone {
+   position: absolute;
+   display: none;
+   align-items: stretch;
+   padding: 5px;
+   border-radius: var(--raio-lg);
+   background: var(--cor-mockup);
+   border: 1px solid var(--branco-a10);
+   box-shadow: var(--sombra-mockup);
+   overflow: hidden;
+}
+.fone-tela {
+   flex: 1;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   border-radius: var(--raio-md);
+   background: repeating-linear-gradient(45deg,
+      var(--cor-mockup-listra-a) 0 14px,
+      var(--cor-mockup-listra-b) 14px 28px);
+}
+.fone-rotulo { font-family: var(--fonte-mono); font-size: var(--papel-meta-tam); color: var(--cor-texto); font-weight: var(--peso-semi); text-align: center; padding: 0 var(--esp-8); }
+
+/* Variante DESKTOP (Motorline, Diagnostico): monitor com base */
+.mockup[data-tipo="desktop"] .frame--desktop { display: flex; left: 0; right: 0; top: 0; height: calc(100% - var(--esp-48)); }
+.mockup[data-tipo="desktop"] .mockup-stand { display: flex; }
+
+/* Variante MOBILE (Coinple): 3 telemoveis, o do centro por cima dos laterais */
+.mockup[data-tipo="mobile"] .fone--centro { display: flex; left: 50%; top: 0; transform: translateX(-50%); width: 38%; height: 100%; z-index: 3; }
+.mockup[data-tipo="mobile"] .fone--esq { display: flex; left: 4%; top: 9%; width: 34%; height: 82%; z-index: 1; opacity: .8; box-shadow: none; }
+.mockup[data-tipo="mobile"] .fone--dir { display: flex; right: 4%; top: 9%; width: 34%; height: 82%; z-index: 1; opacity: .8; box-shadow: none; }
+
+/* Variante DUO (Momentos): desktop atras + telemovel um pouco acima e a frente */
+.mockup[data-tipo="duo"] .frame--desktop { display: flex; left: 0; top: 16%; width: 74%; height: 78%; }
+.mockup[data-tipo="duo"] .fone--centro { display: flex; right: 0; top: 2%; height: 86%; width: 26%; z-index: 3; }
 
 /* Quadrado de vidro vazio ao lado (dica de galeria): so no mobile */
 .galeria-peek {
@@ -451,6 +459,16 @@ main { position: relative; z-index: var(--z-base); }
    font-weight: var(--papel-meta-peso);
    letter-spacing: var(--papel-meta-ls);
 }
+/* Tag de projeto pessoal: no info-card, pequena e discreta */
+.info-tag {
+   align-self: flex-start;
+   margin-top: var(--esp-8);
+   color: var(--cor-texto-dim);
+   font-size: var(--papel-meta-tam);
+   font-weight: var(--peso-medio);
+   letter-spacing: .02em;
+}
+.info-tag::before { content: ""; display: inline-block; width: 5px; height: 5px; margin-right: 6px; border-radius: var(--raio-circulo); background: var(--cor-texto-dim); vertical-align: middle; }
 .info-titulo {
    color: var(--cor-texto);
    font-size: var(--papel-secao-tam);

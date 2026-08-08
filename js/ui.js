@@ -125,6 +125,7 @@ function initGaleria(seccao) {
    const centroMeta = galeria.querySelector('[data-centro-meta]');
    const centroTitulo = galeria.querySelector('[data-centro-titulo]');
    const centroResult = galeria.querySelector('[data-centro-result]');
+   const infoTag = galeria.querySelector('[data-info-tag]');
    const prevMeta = galeria.querySelector('[data-prev-meta]');
    const prevTitulo = galeria.querySelector('[data-prev-titulo]');
    const nextMeta = galeria.querySelector('[data-next-meta]');
@@ -141,12 +142,10 @@ function initGaleria(seccao) {
       const prev = projetos[(i - 1 + n) % n];
       const next = projetos[(i + 1) % n];
 
-      // Variante do mockup (desktop / mobile / duo) e tag de projeto pessoal
-      if (mockup) {
-         mockup.setAttribute('data-tipo', p.mockup || 'desktop');
-         if (p.pessoal) mockup.setAttribute('data-pessoal', 'true');
-         else mockup.removeAttribute('data-pessoal');
-      }
+      // Variante do mockup (desktop / mobile / duo)
+      if (mockup) mockup.setAttribute('data-tipo', p.mockup || 'desktop');
+      // Tag de projeto pessoal: discreta, no info-card
+      if (infoTag) infoTag.hidden = !p.pessoal;
       const titulo = t('proj.' + p.id + '.titulo');
       centroMocks.forEach((el) => { el.textContent = titulo; });
       if (centroMeta) centroMeta.textContent = t('proj.' + p.id + '.meta');
