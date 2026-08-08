@@ -171,12 +171,12 @@ export const strings = {
 //    ordem: a mesma do design (default ativo = diagnostico, indice 3).
 // ============================================================
 // `mockup`: variante visual do esqueleto na galeria da home
-//   'desktop' = moldura de navegador; 'mobile' = telemovel;
-//   'duo' = telemovel + desktop. `pessoal`: mostra a tag "Projeto pessoal".
+//   'desktop' = monitor; 'mobile' = tres telemoveis; 'tablet' = tablet.
+//   `pessoal`: mostra a tag "Projeto pessoal" no info-card.
 export const projetos = [
    { id: 'motorline',   coordenada: { x: 1, y: 0 }, template: 'motorline',   mockup: 'desktop' },
    { id: 'coinple',     coordenada: { x: 2, y: 0 }, template: 'coinple',     mockup: 'mobile', pessoal: true },
-   { id: 'momentos',    coordenada: { x: 3, y: 0 }, template: 'momentos',    mockup: 'duo' },
+   { id: 'momentos',    coordenada: { x: 3, y: 0 }, template: 'momentos',    mockup: 'tablet' },
    { id: 'diagnostico', coordenada: { x: 4, y: 0 }, template: 'diagnostico', mockup: 'desktop' }
 ];
 

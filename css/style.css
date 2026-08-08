@@ -298,30 +298,13 @@ main { position: relative; z-index: var(--z-base); }
    gap: var(--esp-24);
 }
 
-/* Coordenada iluminada por baixo do card ativo: as celulas da grade
-   atras do ativo ficam mais claras, para ele sentar na coordenada. */
-.galeria-coord {
-   position: absolute;
-   left: 50%;
-   top: calc(50% - var(--esp-16));
-   transform: translate(-50%, -50%);
-   width: var(--largura-galeria);
-   height: calc(var(--modulo) * 6);
-   background-image:
-      linear-gradient(var(--cor-linha-grade-accent) 1px, transparent 1px),
-      linear-gradient(90deg, var(--cor-linha-grade-accent) 1px, transparent 1px);
-   background-size: var(--modulo) var(--modulo);
-   -webkit-mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 78%);
-   mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 78%);
-   pointer-events: none;
-}
-
 .galeria-centro {
    position: relative;
    z-index: var(--z-elevado);
    display: flex;
    align-items: stretch;
    gap: var(--esp-32);
+   height: var(--altura-mockup);   /* altura unica: mockup e info-card iguais */
 }
 .mockup-linha { display: flex; align-items: stretch; }
 
@@ -336,18 +319,21 @@ main { position: relative; z-index: var(--z-base); }
    height: var(--altura-mockup);
 }
 
-/* Moldura de ecra (navegador / monitor) */
+/* -------- Dispositivos: proporcoes reais, todos com a altura do palco --
+   desktop = monitor 16:10 + base; tablet = 3:4 com moldura;
+   mobile = 3 telemoveis 9:19.5 (o do centro por cima dos laterais). */
+
+/* Monitor (ecra 16:10 com moldura visivel) */
 .frame {
    position: absolute;
    display: none;
    flex-direction: column;
    overflow: hidden;
    background: var(--cor-mockup);
-   border: 1px solid var(--branco-a10);
+   border: 2px solid var(--branco-a14);
    box-shadow: var(--sombra-mockup);
 }
 .frame-tela {
-   position: relative;
    flex: 1;
    display: flex;
    align-items: center;
@@ -358,18 +344,18 @@ main { position: relative; z-index: var(--z-base); }
 }
 .frame-barra {
    flex: none;
-   height: var(--esp-32);
+   height: var(--esp-24);
    display: flex;
    align-items: center;
    gap: var(--esp-8);
-   padding: 0 var(--esp-16);
+   padding: 0 var(--esp-8);
    background: var(--branco-a06);
    border-bottom: 1px solid var(--cor-borda-suave);
 }
 .frame-barra span { width: var(--tam-dot); height: var(--tam-dot); border-radius: 50%; background: var(--cor-mockup-ponto); }
 .frame-rotulo { font-family: var(--fonte-mono); font-size: var(--papel-meta-tam); color: var(--cor-texto-dim); text-align: center; padding: 0 var(--esp-16); }
 .frame-rotulo b { color: var(--cor-texto); font-weight: var(--peso-semi); }
-.frame--desktop { border-radius: var(--raio-lg); }
+.frame--desktop { border-radius: var(--raio-md); padding: var(--esp-8); }
 
 /* Base do monitor (pescoco + pe), so na variante desktop */
 .mockup-stand {
@@ -383,22 +369,22 @@ main { position: relative; z-index: var(--z-base); }
 .stand-neck {
    width: var(--modulo); height: var(--esp-24);
    background: var(--cor-mockup);
-   border-left: 1px solid var(--branco-a10);
-   border-right: 1px solid var(--branco-a10);
+   border-left: 1px solid var(--branco-a14);
+   border-right: 1px solid var(--branco-a14);
 }
 .stand-base {
    width: 32%; height: var(--esp-8);
    border-radius: var(--raio-pill);
    background: var(--cor-mockup);
-   border: 1px solid var(--branco-a10);
+   border: 1px solid var(--branco-a14);
 }
 
-/* Telemovel: bezel fino em volta de todo o aparelho (sem barra no topo) */
+/* Telemovel / tablet: bezel em volta de todo o aparelho (sem barra no topo) */
 .fone {
    position: absolute;
    display: none;
    align-items: stretch;
-   padding: 5px;
+   padding: 3px;                       /* bezel fino do telemovel */
    border-radius: var(--raio-lg);
    background: var(--cor-mockup);
    border: 1px solid var(--branco-a10);
@@ -417,18 +403,43 @@ main { position: relative; z-index: var(--z-base); }
 }
 .fone-rotulo { font-family: var(--fonte-mono); font-size: var(--papel-meta-tam); color: var(--cor-texto); font-weight: var(--peso-semi); text-align: center; padding: 0 var(--esp-8); }
 
-/* Variante DESKTOP (Motorline, Diagnostico): monitor com base */
-.mockup[data-tipo="desktop"] .frame--desktop { display: flex; left: 0; right: 0; top: 0; height: calc(100% - var(--esp-48)); }
+/* DESKTOP (Motorline, Diagnostico): monitor 16:10 centrado + base */
+.mockup[data-tipo="desktop"] .frame--desktop {
+   display: flex;
+   left: 50%; top: 0; transform: translateX(-50%);
+   height: calc(100% - var(--esp-48));
+   aspect-ratio: 16 / 10;
+   max-width: 100%;
+}
 .mockup[data-tipo="desktop"] .mockup-stand { display: flex; }
 
-/* Variante MOBILE (Coinple): 3 telemoveis, o do centro por cima dos laterais */
-.mockup[data-tipo="mobile"] .fone--centro { display: flex; left: 50%; top: 0; transform: translateX(-50%); width: 38%; height: 100%; z-index: 3; }
-.mockup[data-tipo="mobile"] .fone--esq { display: flex; left: 4%; top: 9%; width: 34%; height: 82%; z-index: 1; opacity: .8; box-shadow: none; }
-.mockup[data-tipo="mobile"] .fone--dir { display: flex; right: 4%; top: 9%; width: 34%; height: 82%; z-index: 1; opacity: .8; box-shadow: none; }
+/* TABLET (Momentos): 3:4 com moldura mais grossa */
+.mockup[data-tipo="tablet"] .fone--tablet {
+   display: flex;
+   left: 50%; top: 50%; transform: translate(-50%, -50%);
+   height: 100%;
+   aspect-ratio: 3 / 4;
+   max-width: 100%;
+   padding: var(--esp-8);
+   border-width: 2px;
+   border-color: var(--branco-a14);
+   z-index: 2;
+}
 
-/* Variante DUO (Momentos): desktop atras + telemovel um pouco acima e a frente */
-.mockup[data-tipo="duo"] .frame--desktop { display: flex; left: 0; top: 16%; width: 74%; height: 78%; }
-.mockup[data-tipo="duo"] .fone--centro { display: flex; right: 0; top: 2%; height: 86%; width: 26%; z-index: 3; }
+/* MOBILE (Coinple): 3 telemoveis 9:19.5, o do centro por cima dos laterais */
+.mockup[data-tipo="mobile"] .fone--centro {
+   display: flex;
+   left: 50%; top: 50%; transform: translate(-50%, -50%);
+   height: 100%; aspect-ratio: 9 / 19.5; max-width: 100%; z-index: 3;
+}
+.mockup[data-tipo="mobile"] .fone--esq {
+   display: flex; left: 8%; top: 50%; transform: translateY(-50%);
+   height: 88%; aspect-ratio: 9 / 19.5; z-index: 1; opacity: .82; box-shadow: none;
+}
+.mockup[data-tipo="mobile"] .fone--dir {
+   display: flex; right: 8%; top: 50%; transform: translateY(-50%);
+   height: 88%; aspect-ratio: 9 / 19.5; z-index: 1; opacity: .82; box-shadow: none;
+}
 
 /* Quadrado de vidro vazio ao lado (dica de galeria): so no mobile */
 .galeria-peek {
@@ -503,17 +514,16 @@ main { position: relative; z-index: var(--z-base); }
 }
 .cta:hover { filter: brightness(1.08); }
 
-/* Vizinhos (prev / next): projetos vizinhos espreitando atras do
-   ativo, em escala menor e opacidade reduzida. Alinhados ao topo do
-   centro e com a mesma altura do mockup, para nao descerem abaixo da
-   galeria alem do respiro do card. */
+/* Vizinhos (prev / next): projetos vizinhos espreitando atras do ativo,
+   card baixo (128px) e centrado verticalmente no palco. */
 .galeria-vizinho {
    position: absolute;
-   top: 0;
-   height: var(--altura-mockup);
+   top: calc(var(--altura-mockup) / 2);
+   height: calc(var(--modulo) * 2);   /* 128px */
    width: var(--largura-vizinho);
    display: flex;
    flex-direction: column;
+   justify-content: center;
    text-align: left;
    cursor: pointer;
    padding: var(--esp-24);
@@ -527,8 +537,8 @@ main { position: relative; z-index: var(--z-base); }
    z-index: var(--z-base);
 }
 .galeria-vizinho:hover { opacity: .72; }
-.galeria-vizinho--prev { left: var(--offset-vizinho); transform-origin: left top; transform: scale(.82); }
-.galeria-vizinho--next { right: var(--offset-vizinho); transform-origin: right top; transform: scale(.82); }
+.galeria-vizinho--prev { left: var(--offset-vizinho); transform-origin: left center; transform: translateY(-50%) scale(.82); }
+.galeria-vizinho--next { right: var(--offset-vizinho); transform-origin: right center; transform: translateY(-50%) scale(.82); }
 .vizinho-meta {
    display: block;
    color: var(--cor-texto-dim);
@@ -773,13 +783,12 @@ main { position: relative; z-index: var(--z-base); }
    .marca-divisor { display: none; }
    .marca-papel { display: block; font-size: var(--texto-sm); }
 
-   .galeria-centro { flex-direction: column; align-items: center; gap: var(--esp-24); }
+   .galeria-centro { flex-direction: column; align-items: center; gap: var(--esp-24); height: auto; }
    .info-card { width: var(--largura-info); }
    .mockup-linha { width: min(100%, var(--largura-info)); gap: var(--esp-16); }
    .mockup { flex: 1; width: auto; }
    .galeria-vizinho { display: none; }
    .galeria-peek { display: block; }
-   .galeria-coord { width: 120%; height: calc(var(--modulo) * 5); }
 }
 
 /* Desktop baixo (13"): compacta a composicao para a galeria assentar
